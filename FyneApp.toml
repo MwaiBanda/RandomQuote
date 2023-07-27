@@ -1,0 +1,8 @@
+Website = "https://github.com/MwaiBanda/RandomQuote"
+
+[Details]
+  Icon = "Icon.png"
+  Name = "BasicUIPlayground"
+  ID = "com.basic-ui-playground.app"
+  Version = "1.0.0"
+  Build = 5

@@ -3,11 +3,11 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"fyne.io/fyne/v2"
 	"io/ioutil"
 	"net/http"
 	"time"
 
-	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
@@ -16,19 +16,19 @@ import (
 
 type Quote struct {
 	Content string `json:"content"`
-	Author string `json:"author"`
-
+	Author  string `json:"author"`
 }
 
-func getQuote(client *http.Client) (Quote) {
+func getQuote(client *http.Client) Quote {
 	res, err := client.Get("https://api.quotable.io/quotes/random")
 	if err != nil {
 		fmt.Println(err)
 	}
 	defer res.Body.Close()
 	body, _ := ioutil.ReadAll(res.Body)
-	var quotes []Quote 
-	decodingErr := json.Unmarshal([]byte(body), &quotes); if decodingErr != nil {
+	var quotes []Quote
+	decodingErr := json.Unmarshal([]byte(body), &quotes)
+	if decodingErr != nil {
 		fmt.Println("error could not unmarshall")
 		fmt.Println(decodingErr)
 	}
@@ -55,6 +55,7 @@ func main() {
 		authorLabel.SetText(quote.Author)
 	})
 	quoteButton.Resize(fyne.NewSize(100, 100))
+
 	hStack := container.NewHBox(
 		layout.NewSpacer(),
 		quoteButton,
@@ -66,7 +67,6 @@ func main() {
 		quoteLabel,
 		authorLabel,
 		layout.NewSpacer(),
-		
 	)
 	window.SetContent(container.NewPadded(vStack))
 	window.ShowAndRun()
